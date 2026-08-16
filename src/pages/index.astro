@@ -1,13 +1,16 @@
 ---
-import '~/styles/global.css';
+import Layout from '~/layouts/Layout.astro';
+import { site } from '~/data/site';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>nathandesrosiers.com</title>
-  </head>
-  <body>
-    <p>Coming soon.</p>
-  </body>
-</html>
+<Layout title="Home" description={site.description}>
+  <h1 class="text-3xl font-bold">Nathan Desrosiers</h1>
+  <p class="mt-4 text-neutral-700">
+    Welcome. This site is a work in progress — more about me and a look at my
+    art projects are coming soon.
+  </p>
+  <p class="mt-6">
+    <a href="/about" class="underline">Read the About page</a> or
+    <a href="/portfolio" class="underline">browse the Portfolio</a>.
+  </p>
+</Layout>
