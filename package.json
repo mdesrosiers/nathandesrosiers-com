@@ -1,0 +1,42 @@
+{
+  "name": "nathandesrosiers-com",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "format": "prettier --write \"**/*.{astro,ts,tsx,css,md,json,yaml,yml}\"",
+    "test": "playwright test",
+    "test:unit": "vitest run",
+    "prepare": "husky || true"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^6.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@axe-core/playwright": "^4.9.0",
+    "@playwright/test": "^1.45.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.2.0",
+    "prettier-plugin-astro": "^0.13.0",
+    "typescript": "^5.4.0",
+    "vitest": "^4.1.6"
+  },
+  "lint-staged": {
+    "*.{astro,ts,tsx,css,md,json,yaml,yml}": "prettier --write"
+  }
+}

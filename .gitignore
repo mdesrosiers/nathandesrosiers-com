@@ -1,3 +1,10 @@
 
 # Claude Code project-local settings (tn autonomy grants)
 .claude/settings.local.json
+
+node_modules
+dist
+.astro
+.env
+test-results
+playwright-report
