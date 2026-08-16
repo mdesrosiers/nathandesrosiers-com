@@ -1,0 +1,27 @@
+---
+import type { Project } from '~/data/projects';
+
+type Props = { project: Project };
+const { project } = Astro.props;
+---
+
+<a
+  href={`/portfolio/${project.slug}`}
+  class="block rounded border border-neutral-200 p-4 hover:border-neutral-400"
+>
+  {
+    project.media.type === 'image' ? (
+      <img
+        src={project.media.src}
+        alt={project.media.alt}
+        class="mb-3 h-48 w-full rounded object-cover"
+      />
+    ) : (
+      <div class="mb-3 flex h-48 w-full items-center justify-center rounded bg-neutral-100 text-neutral-600">
+        <span>Video preview coming soon</span>
+      </div>
+    )
+  }
+  <h2 class="font-semibold">{project.title}</h2>
+  <p class="mt-1 text-sm text-neutral-600">{project.description}</p>
+</a>

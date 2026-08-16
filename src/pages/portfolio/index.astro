@@ -1,0 +1,23 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import ProjectCard from '~/components/ProjectCard.astro';
+import { getProjects } from '~/data/projects';
+
+const projects = getProjects();
+---
+
+<Layout
+  title="Portfolio"
+  description="A showcase of art projects by Nathan Desrosiers."
+>
+  <h1 class="text-3xl font-bold">Portfolio</h1>
+  <ul class="mt-6 grid gap-6 sm:grid-cols-2">
+    {
+      projects.map((project) => (
+        <li>
+          <ProjectCard project={project} />
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
