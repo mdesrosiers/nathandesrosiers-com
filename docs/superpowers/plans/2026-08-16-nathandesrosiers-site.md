@@ -24,6 +24,7 @@
 ### Task 1: Project scaffold & tooling
 
 **Files:**
+
 - Create: `package.json`
 - Create: `.nvmrc`
 - Create: `tsconfig.json`
@@ -39,6 +40,7 @@
 - Modify: `.gitignore`
 
 **Interfaces:**
+
 - Produces: a working `pnpm build`/`pnpm dev`/`pnpm typecheck` toolchain every later task relies on. Path alias `~/*` → `src/*` (used by every subsequent `~/...` import).
 
 - [ ] **Step 1: Write `package.json`**
@@ -281,6 +283,7 @@ git commit -m "chore: scaffold Astro + Tailwind project"
 ### Task 2: Project data module and placeholder media
 
 **Files:**
+
 - Create: `src/data/site.ts`
 - Create: `src/data/projects.ts`
 - Create: `src/data/projects.test.ts`
@@ -288,6 +291,7 @@ git commit -m "chore: scaffold Astro + Tailwind project"
 - Create: `public/media/placeholder-2.svg`
 
 **Interfaces:**
+
 - Consumes: nothing from Task 1 beyond the working Vitest config.
 - Produces: `export const site: { title: string; description: string; url: string }` from `~/data/site`. `export type Project = { slug: string; title: string; description: string; date: string; media: { type: 'image'; src: string; alt: string } | { type: 'video'; alt: string } }`, `export function getProjects(): readonly Project[]`, `export function getProject(slug: string): Project | undefined` from `~/data/projects` — used by Tasks 3, 5, and 6.
 
@@ -347,28 +351,41 @@ export type Project = {
   title: string;
   description: string;
   date: string;
-  media: { type: 'image'; src: string; alt: string } | { type: 'video'; alt: string };
+  media:
+    | { type: 'image'; src: string; alt: string }
+    | { type: 'video'; alt: string };
 };
 
 const projects: readonly Project[] = [
   {
     slug: 'placeholder-one',
     title: 'Placeholder Project One',
-    description: 'A short placeholder description of the first project. Real content coming soon.',
+    description:
+      'A short placeholder description of the first project. Real content coming soon.',
     date: '2026-01-01',
-    media: { type: 'image', src: '/media/placeholder-1.svg', alt: 'Placeholder artwork one' },
+    media: {
+      type: 'image',
+      src: '/media/placeholder-1.svg',
+      alt: 'Placeholder artwork one',
+    },
   },
   {
     slug: 'placeholder-two',
     title: 'Placeholder Project Two',
-    description: 'A short placeholder description of the second project. Real content coming soon.',
+    description:
+      'A short placeholder description of the second project. Real content coming soon.',
     date: '2026-02-01',
-    media: { type: 'image', src: '/media/placeholder-2.svg', alt: 'Placeholder artwork two' },
+    media: {
+      type: 'image',
+      src: '/media/placeholder-2.svg',
+      alt: 'Placeholder artwork two',
+    },
   },
   {
     slug: 'placeholder-three',
     title: 'Placeholder Project Three',
-    description: 'A short placeholder description of a video project. Real content coming soon.',
+    description:
+      'A short placeholder description of a video project. Real content coming soon.',
     date: '2026-03-01',
     media: { type: 'video', alt: 'Placeholder video project' },
   },
@@ -420,6 +437,7 @@ git commit -m "feat: add site config and placeholder project data"
 ### Task 3: Layout, Nav, Footer, and Home page
 
 **Files:**
+
 - Create: `src/layouts/Layout.astro`
 - Create: `src/components/Nav.astro`
 - Create: `src/components/Footer.astro`
@@ -427,6 +445,7 @@ git commit -m "feat: add site config and placeholder project data"
 - Create: `tests/home.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `site` from `~/data/site` (Task 2).
 - Produces: `Layout.astro` with `Props = { title: string; description: string }`, used by every page from here on (Tasks 4, 5, 6).
 
@@ -438,13 +457,21 @@ import { test, expect } from '@playwright/test';
 test('home page loads with nav and heading', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveTitle(/Home/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Nathan Desrosiers');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Nathan Desrosiers',
+  );
 });
 
 test('nav exposes links to about and portfolio', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
-  await expect(page.getByRole('link', { name: 'Portfolio' })).toHaveAttribute('href', '/portfolio');
+  await expect(page.getByRole('link', { name: 'About' })).toHaveAttribute(
+    'href',
+    '/about',
+  );
+  await expect(page.getByRole('link', { name: 'Portfolio' })).toHaveAttribute(
+    'href',
+    '/portfolio',
+  );
 });
 ```
 
@@ -458,7 +485,6 @@ Expected: FAIL — no heading "Nathan Desrosiers" and no About/Portfolio links e
 ```astro
 ---
 const links = [
-  { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/portfolio', label: 'Portfolio' },
 ];
@@ -466,20 +492,25 @@ const current = Astro.url.pathname;
 ---
 
 <header class="border-b border-neutral-200">
-  <nav class="mx-auto flex max-w-3xl items-center justify-between px-4 py-4" aria-label="Main">
+  <nav
+    class="mx-auto flex max-w-3xl items-center justify-between px-4 py-4"
+    aria-label="Main"
+  >
     <a href="/" class="font-semibold">Nathan Desrosiers</a>
     <ul class="flex gap-6">
-      {links.map((link) => (
-        <li>
-          <a
-            href={link.href}
-            aria-current={current === link.href ? 'page' : undefined}
-            class="hover:underline"
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={current === link.href ? 'page' : undefined}
+              class="hover:underline"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </nav>
 </header>
@@ -553,8 +584,8 @@ import { site } from '~/data/site';
 <Layout title="Home" description={site.description}>
   <h1 class="text-3xl font-bold">Nathan Desrosiers</h1>
   <p class="mt-4 text-neutral-700">
-    Welcome. This site is a work in progress — more about me and a look at my art projects are
-    coming soon.
+    Welcome. This site is a work in progress — more about me and a look at my
+    art projects are coming soon.
   </p>
   <p class="mt-6">
     <a href="/about" class="underline">Read the About page</a> or
@@ -591,10 +622,12 @@ git commit -m "feat: add site layout, nav, footer, and home page"
 ### Task 4: About page
 
 **Files:**
+
 - Create: `src/pages/about.astro`
 - Create: `tests/about.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `Layout` from `~/layouts/Layout.astro` (Task 3).
 
 - [ ] **Step 1: Write the failing test — `tests/about.spec.ts`**
@@ -625,7 +658,8 @@ import Layout from '~/layouts/Layout.astro';
 <Layout title="About" description="A short bio for Nathan Desrosiers.">
   <h1 class="text-3xl font-bold">About</h1>
   <p class="mt-4 text-neutral-700">
-    Placeholder bio — a short introduction to Nathan Desrosiers and their work will go here.
+    Placeholder bio — a short introduction to Nathan Desrosiers and their work
+    will go here.
   </p>
 </Layout>
 ```
@@ -647,11 +681,13 @@ git commit -m "feat: add about page"
 ### Task 5: Portfolio index page
 
 **Files:**
+
 - Create: `src/components/ProjectCard.astro`
 - Create: `src/pages/portfolio/index.astro`
 - Create: `tests/portfolio.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `Project` type and `getProjects()` from `~/data/projects` (Task 2); `Layout` from `~/layouts/Layout.astro` (Task 3).
 - Produces: `ProjectCard.astro` with `Props = { project: Project }`, reused by Task 6's detail page styling conventions (not imported there, but same visual pattern).
 
@@ -663,17 +699,22 @@ import { test, expect } from '@playwright/test';
 test('portfolio page lists all placeholder projects', async ({ page }) => {
   await page.goto('/portfolio');
   await expect(page).toHaveTitle(/Portfolio/);
-  await expect(page.getByRole('heading', { name: 'Placeholder Project One' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Placeholder Project Two' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Placeholder Project Three' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Placeholder Project One' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Placeholder Project Two' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Placeholder Project Three' }),
+  ).toBeVisible();
 });
 
 test('project cards link to their detail pages', async ({ page }) => {
   await page.goto('/portfolio');
-  await expect(page.getByRole('link', { name: /Placeholder Project One/ })).toHaveAttribute(
-    'href',
-    '/portfolio/placeholder-one',
-  );
+  await expect(
+    page.getByRole('link', { name: /Placeholder Project One/ }),
+  ).toHaveAttribute('href', '/portfolio/placeholder-one');
 });
 ```
 
@@ -696,17 +737,19 @@ const { project } = Astro.props;
   href={`/portfolio/${project.slug}`}
   class="block rounded border border-neutral-200 p-4 hover:border-neutral-400"
 >
-  {project.media.type === 'image' ? (
-    <img
-      src={project.media.src}
-      alt={project.media.alt}
-      class="mb-3 h-48 w-full rounded object-cover"
-    />
-  ) : (
-    <div class="mb-3 flex h-48 w-full items-center justify-center rounded bg-neutral-100 text-neutral-600">
-      <span>Video preview coming soon</span>
-    </div>
-  )}
+  {
+    project.media.type === 'image' ? (
+      <img
+        src={project.media.src}
+        alt={project.media.alt}
+        class="mb-3 h-48 w-full rounded object-cover"
+      />
+    ) : (
+      <div class="mb-3 flex h-48 w-full items-center justify-center rounded bg-neutral-100 text-neutral-600">
+        <span>Video preview coming soon</span>
+      </div>
+    )
+  }
   <h2 class="font-semibold">{project.title}</h2>
   <p class="mt-1 text-sm text-neutral-600">{project.description}</p>
 </a>
@@ -723,14 +766,19 @@ import { getProjects } from '~/data/projects';
 const projects = getProjects();
 ---
 
-<Layout title="Portfolio" description="A showcase of art projects by Nathan Desrosiers.">
+<Layout
+  title="Portfolio"
+  description="A showcase of art projects by Nathan Desrosiers."
+>
   <h1 class="text-3xl font-bold">Portfolio</h1>
   <ul class="mt-6 grid gap-6 sm:grid-cols-2">
-    {projects.map((project) => (
-      <li>
-        <ProjectCard project={project} />
-      </li>
-    ))}
+    {
+      projects.map((project) => (
+        <li>
+          <ProjectCard project={project} />
+        </li>
+      ))
+    }
   </ul>
 </Layout>
 ```
@@ -752,10 +800,12 @@ git commit -m "feat: add portfolio index page"
 ### Task 6: Portfolio detail page
 
 **Files:**
+
 - Create: `src/pages/portfolio/[slug].astro`
 - Create: `tests/portfolio-detail.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `getProjects`, `getProject` from `~/data/projects` (Task 2); `Layout` from `~/layouts/Layout.astro` (Task 3).
 
 - [ ] **Step 1: Write the failing test — `tests/portfolio-detail.spec.ts`**
@@ -763,18 +813,26 @@ git commit -m "feat: add portfolio index page"
 ```ts
 import { test, expect } from '@playwright/test';
 
-test('detail page for an image project shows title, image, and description', async ({ page }) => {
+test('detail page for an image project shows title, image, and description', async ({
+  page,
+}) => {
   await page.goto('/portfolio/placeholder-one');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Placeholder Project One');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Placeholder Project One',
+  );
   await expect(page.getByAltText('Placeholder artwork one')).toBeVisible();
   await expect(
     page.getByText('A short placeholder description of the first project.'),
   ).toBeVisible();
 });
 
-test('detail page for a video project shows the video placeholder', async ({ page }) => {
+test('detail page for a video project shows the video placeholder', async ({
+  page,
+}) => {
   await page.goto('/portfolio/placeholder-three');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Placeholder Project Three');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Placeholder Project Three',
+  );
   await expect(page.getByText('Video preview coming soon')).toBeVisible();
 });
 
@@ -808,13 +866,19 @@ const project = getProject(slug!)!;
 <Layout title={project.title} description={project.description}>
   <a href="/portfolio" class="text-sm underline">&larr; Back to Portfolio</a>
   <h1 class="mt-4 text-3xl font-bold">{project.title}</h1>
-  {project.media.type === 'image' ? (
-    <img src={project.media.src} alt={project.media.alt} class="mt-6 w-full rounded" />
-  ) : (
-    <div class="mt-6 flex h-64 w-full items-center justify-center rounded bg-neutral-100 text-neutral-600">
-      <span>Video preview coming soon</span>
-    </div>
-  )}
+  {
+    project.media.type === 'image' ? (
+      <img
+        src={project.media.src}
+        alt={project.media.alt}
+        class="mt-6 w-full rounded"
+      />
+    ) : (
+      <div class="mt-6 flex h-64 w-full items-center justify-center rounded bg-neutral-100 text-neutral-600">
+        <span>Video preview coming soon</span>
+      </div>
+    )
+  }
   <p class="mt-6 text-neutral-700">{project.description}</p>
 </Layout>
 ```
@@ -836,9 +900,11 @@ git commit -m "feat: add portfolio detail page"
 ### Task 7: Accessibility smoke tests
 
 **Files:**
+
 - Create: `tests/a11y.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `@axe-core/playwright`'s `AxeBuilder` (already a devDependency from Task 1); all pages built in Tasks 3–6.
 
 - [ ] **Step 1: Write the test — `tests/a11y.spec.ts`**
@@ -877,9 +943,11 @@ git commit -m "test: add accessibility smoke tests"
 ### Task 8: Netlify config
 
 **Files:**
+
 - Create: `netlify.toml`
 
 **Interfaces:**
+
 - Consumes: nothing (declarative deploy config; Netlify reads this file directly).
 
 - [ ] **Step 1: Write `netlify.toml`**
@@ -933,9 +1001,11 @@ git commit -m "chore: add Netlify build config and security headers"
 ### Task 9: GitHub Actions CI
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 **Interfaces:**
+
 - Consumes: `pnpm typecheck`, `pnpm test:unit`, `pnpm build`, `pnpm test` scripts (Task 1).
 
 - [ ] **Step 1: Write `.github/workflows/ci.yml`**
@@ -1007,9 +1077,11 @@ git commit -m "ci: add GitHub Actions workflow"
 ### Task 10: Dependabot config
 
 **Files:**
+
 - Create: `.github/dependabot.yml`
 
 **Interfaces:**
+
 - Consumes: nothing (declarative; GitHub reads this file directly once pushed).
 
 - [ ] **Step 1: Write `.github/dependabot.yml`**
@@ -1017,24 +1089,24 @@ git commit -m "ci: add GitHub Actions workflow"
 ```yaml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     groups:
       npm-minor-patch:
         update-types:
-          - "minor"
-          - "patch"
-  - package-ecosystem: "github-actions"
-    directory: "/"
+          - 'minor'
+          - 'patch'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     groups:
       actions-minor-patch:
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
 ```
 
 - [ ] **Step 2: Verify it's valid YAML**
@@ -1054,9 +1126,11 @@ git commit -m "chore: add Dependabot config for npm and github-actions"
 ### Task 11: README, GitHub repo, and deployment handoff
 
 **Files:**
+
 - Create: `README.md`
 
 **Interfaces:**
+
 - Consumes: nothing. This task also performs the repo-creation/push side effect described in the steps below.
 
 - [ ] **Step 1: Write `README.md`**
