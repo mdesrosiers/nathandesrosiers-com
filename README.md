@@ -1,5 +1,7 @@
 # nathandesrosiers.com
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5701f8a7-67a8-44c1-9761-23af087358b3/deploy-status)](https://app.netlify.com/projects/nathandesrosiers/deploys)
+
 Personal site and art portfolio for Nathan Desrosiers. Built with [Astro](https://astro.build)
 and [Tailwind CSS](https://tailwindcss.com), deployed on [Netlify](https://www.netlify.com).
 
